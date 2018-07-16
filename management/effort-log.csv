@@ -1,0 +1,28 @@
+Date,Effort,Developers,Milestones
+01/29/2018,1.5,"Ed, Kai","DefineInitialMilestones, ImplementLexerForBasicPrograms"
+01/02/2018,2.5,"Ed, Kai","InitialPlanningMeeting, WriteParserFileForBasicPrograms"
+10/02/2018,1,Ed,DefineBasicPrograms
+19/02/2018,3.5,"Ed,Kai","ResearchTokens, ImplementLexerForBasicPrograms, WriteASTForBasicPrograms, WriteParserFileForBasicPrograms"
+21/02/2018,0.5,Ed,WriteASTForBasicPrograms
+25/02/2018,4,"Ed,Kai","WriteRequiredTests,  ImplementLexerForBasicPrograms, WriteParserFileForBasicPrograms"
+26/02/2018,6,"Ed,Kai","WriteParserFileForBasicPrograms, WriteASTForBasicPrograms"
+27/02/2018,3,"Ed,Kai",WriteASTForBasicPrograms
+04/03/2018,2,"Ed,Kai",WriteASTForBasicPrograms
+05/03/2018,3,Kai,WriteASTForBasicPrograms
+07/03/2018,6.5,"Ed, Kai","WriteParserFileForBasicPrograms, WriteASTForBasicPrograms"
+08/03/2018,3,"Ed,Kai","DebugBasicParser/AST/Lexer, MinimalPythonConverter"
+09/03/2018,4,Kai,MinimalPythonConverter
+12/03/2018,1.5,Ed,MinimalPythonConverter
+13/03/2018,4.5,"Ed,Kai","WriteCompleteAST,WriteCompleteParser,MinimalPythonConverter"
+14/03/2018,5,"Ed,Kai","WriteCompleteAST,WriteCompleteParser,MinimalPythonConverter"
+15/03/2018,1,Ed,"WriteCompleteAST,WriteCompleteParser,MinimalPythonConverter"
+16/03/2018,5,"Ed, Kai","WriteCompleteAST,WriteCompleteParser,MinimalPythonConverter,PythonConverter"
+18/03/2018,1,Ed,CompilationPrep
+19/03/2018,4.5,"Ed, Kai","CompilationPrep,MinimalCompilation"
+20/03/2018,5,"Ed, Kai",CompilationPrep
+21/03/2018,0.5,Ed,"CompilationPrep,MinimalCompilation"
+24/03/2018,1,Ed,"CompilationPrep,MinimalCompilation"
+25/03/2018,6,"Ed, Kai","CompilationPrep,MinimalCompilation,BasicCompilation"
+26/03/2018,7,"Ed, Kai","AllOperatorCompilation,FlowCompilation"
+27/03/2018,6.5,"Ed, Kai","FlowCompilation,GlobsAndCallsFunction"
+'28/03/2018,2,Ed,FinalTweaks

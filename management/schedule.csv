@@ -1,0 +1,10 @@
+Week,    DateRange,          PlannedEffort,ActualEffort,  OtherDeadlines
+4, 29th Jan -  4th Feb,"Define Initial Milesones, Initial Planning Meeting, Define Basic Programs","Define Initial Programs, Initial Planning", Lexers Deliberable
+5,  5th Feb - 11th Feb,"Define Basic Programs, Implement C Lexer",Define Basic Programs,
+6, 12th Feb - 18th Feb,Implement C Lexer,None," Databases Deliverable. Networks Coursework. Parser Deliverable, Picocon"
+7, 19th Feb - 25th Feb,"WriteRequiredTests, WriteASTForBasicProgram, ImplementLexerForBasicPrograms","WriteRequiredTests, ImplementLexerForBasicPrograms",
+8, 26th Feb -  4th Mar,"WriteASTForBasicProgram, WriteParserFileForBasicPrograms, MinimalPythonCompiler",None,"Databases Deliverable,  Code Gen Deliverable, Formative Deadline"
+9,  5th Mar - 11th Mar,"WriteASTForBasicProgram,WriteParserFileForBasicPrograms, MinimalPython Compiler, DebugBasicParser/AST/Lexer","WriteASTForBasicProgram,WriteParserFileForBasicPrograms,DebugBasicParser/AST/Lexer",
+10, 12th Mar - 18th Mar,"MinimalPythonCompiler, WriteCompleteAST, WriteCompleteParser, Python Converter","MinimalPythonCompiler, WriteCompleteAST, WriteCompleteParser, Python Converter",
+11, 19th Mar - 25th Mar,"CompilationPrep,MinimalCompilation,BasicCompilation","CompilationPrep,MinimalCompilation,BasicCompilation",Maths Coursework
+12, 26th Mar - 30th Mar,"AllOperatorCompilation,FlowCompilation,GlobsAndCallsFunction,FullCompilation,FinalTweaks","AllOperatorCompilation,FlowCompilation,GlobsAndCallsFunction,FinalTweaks",Due 30th

@@ -1,0 +1,23 @@
+MilestoneID,             Dependencies, EstimatedEffort, Lead,  Completed, Description
+DefineInitialMilestones,None,0.5,edp16,1ce9aa4f81f27cba6b39624ddaf00a7c70e5080d, Come up with initial milestones for getting started
+InitialPlanningMeeting,None,0.5,mkl16,1ce9aa4f81f27cba6b39624ddaf00a7c70e5080d,Meet to establish basic goals and common understanding
+DefineBasicPrograms,None,1,edp16,3d9fca7a2744c4b05e13fd1b96db857e4dbe0fcf,Come up with very basic programs to run through the entire compiler and write them
+ResearchTokens,None,4,Kai,335ac60e421b3082557897d7c1704c6929ea1902,Research all tokens required for C
+ImplementLexerForBasicPrograms,DefineBasicPrograms,2,Kai,75b56b7a8e5628e869bb815f22018322e5a7e9bf,Implement Lexer to support tokens found in basic programs
+ImplementGoodCLexer,"ResearchTokens, ImplementLexerForBasicPrograms",3,Kai,b5fa29203995d3478145d3feb74fed31171b0378,Implement Lexer to support all C tokens
+WriteRequiredTests,None,2,edp16,7073fe10b1c779b821d111f0dee7e3dfa91a08c5,Write tests and test drivers for required tests
+WriteASTForBasicPrograms,DefineBasicPrograms,4,mkl16,b5fa29203995d3478145d3feb74fed31171b0378,Write AST nodes sufficient to print out basic program
+WriteParserFileForBasicPrograms,DefineBasicPrograms,4,edp16,fb58c7d8aa66c8a9196b6f294dd3800ae84c7c84,Write Grammar sufficient to handle basic programs
+DebugBasicParser/AST/Lexer,"WriteASTForBasicPrograms, WriteParserFileForBasicPrograms, ImplementLexerForBasicPrograms",3,edp16,d3412f10f6b2157bc973a10c71e8c5552bfbe232,"Be honest, first version won’t work. Debug it"
+WriteCompleteAST,WriteASTForBasicPrograms,3,edp16,5890604996038b811ece86e03c4dbd7cf00f1453,"Living task, add more to AST. Complete is misnomer – final is more accurate"
+WriteCompleteParser,WriteParserFileForBasicPrograms,3,mkl16,ada713018506fe5b5811a3927baaca8477eac82c,"Living task, add more to grammar"
+MinimalPythonConverter,"WriteASTForBasicPrograms, WriteParserFileForBasicPrograms, ImplementLexerForBasicPrograms",2,edp16,e965bd3177bd9f49f684933e1dc554073bc4ccc5,Be capable of translating basic programs
+PythonConverter,"WriteCompleteAST, WriteCompleteParser,MinimalPythonConverter",2,edp16,ada713018506fe5b5811a3927baaca8477eac82c,Translate 50%required programs
+CompilationPrep,None,2,edp16,a2dd17fbd51f476a31f4596c51ffefd84114482e,"Get ground work for compilation, eg context, register stuff, etc"
+MinimalCompilation,"WriteCompleteAST, WriteCompleteParser",8,edp16,6beed8537244383e53c98aa4b9daa2870948d11e,"Get basic structure for compilation working, be able to compile int x(){return 3;} - this doesn’t need new backend "
+BasicCompilation,MinimalCompilation,6,edp16,88dac627280780e9c95b155b8bc137945b60e4c6,Add support to variable declarations and basic maths
+AllOperatorCompilation,BasicCompilation,2,mkl16,f52d85023ef73d15f07bf38ea9578ce5f9b78346,Add support for all operators in our AST
+FlowCompilation,AllOperatorCompilation,3,edp16,7efa43b16bd01b92088e6a668426335dbf444851,"Add support for flow control (if, else, etc)"
+GlobsAndCallsFunction,FlowCompilation,3,edp16,76fbe4733534c9cc70814d2946694de5fae1689f,Add support for function calls and global variables
+FullCompilation,GlobsAndCallsFunction,3,edp16,,"Add support for remaining things in AST. If we have time, add more to AST then support that too. NB- Full AST does not compile, notably functions with parameters are unsupported"
+FinalTweaks,None,2,edp16,this,"Final tweaks and debugging. Check that management is correct, run sanity.sh on this commit, do manual debugging on important examples"
