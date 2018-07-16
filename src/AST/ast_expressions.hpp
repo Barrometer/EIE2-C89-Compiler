@@ -18,62 +18,69 @@ class AssignmentExpression : public Expression{ // ie for EXPRESSION = EXPRESSIO
 		
 	public:
 		AssignmentExpression(std::string _target, ExpressionPtr _value) : target(_target), value(_value){}
+		
 		const Expression *getvalue() const;
+		
 		virtual void print(std::ostream &dst) const override {
 			dst<<target;
 			dst << " = ";
 			value->print(dst);
 		}
-		virtual void translate(std::ostream &dst, int indent) const override {
+		
+		virtual void translate(std::ostream &dst, int indent) const override { // for python translation requirement
 			dst<<target;
 			dst << " = ( ";
 			value->translate(dst,indent);
 			dst << " )";
 		}
+		
 		virtual void compile(std::ostream &dst, Context & bindings, Registers & regs, std::string destReg, std::string returnLoc) const override {	 
 			
-			/*int tmp = regs.EmptyRegister();
-			regs.ReserveRegister(tmp);
-			destReg = "$" + std::to_string(tmp);
-			value->compile(dst, bindings, regs, destReg,returnLoc);*/
 			
-			if(bindings.isGlob(target)){
+			if(bindings.isGlob(target)){ // ie when assigning value to a global variable
 			
-				int x =regs.EmptyRegister();
-				regs.ReserveRegister(x);
-				int y =regs.EmptyRegister();
+				int x =regs.EmptyRegister(); // obtain one empty register
+				regs.ReserveRegister(x); // reserve it. 
+				int y =regs.EmptyRegister(); // and another
 				regs.ReserveRegister(y);
+				
+				// need two registers temporatily - one for storing result, one for storing operand
 				
 				destReg = "$" + std::to_string(x);
 				std::string globReg = "$" + std::to_string(y);
 				
 				std::cerr<<"storing a global"<<std::endl;
 				
+				// some boiler plate to allow global assignment to work
 				dst<<"lui "<<globReg<<",\%hi("<<target<<")"<<std::endl;
 				dst<<"addiu "<<globReg<<", \%lo("<<target<<")"<<std::endl;
 				
+				/* recursively call compile on the value expression.
+					consider the following; x = a + b;
+					to assign correctly, must work out value of a+b
+				*/
 				value->compile(dst,bindings,regs,destReg,returnLoc);			
 				
 				dst<<"sw	"<<destReg<<", ("<<globReg<<")"<<std::endl;
+				
+				// now mark registers as unused
 				regs.ReleaseRegister(x);
 				regs.ReleaseRegister(y);
 			}
 			
-			else{
+			else{ // the case for assigning to a local variable. Largely the same as above
 				int tmp = regs.EmptyRegister();
 				regs.ReserveRegister(tmp);
 				destReg = "$" + std::to_string(tmp);
 				value->compile(dst, bindings, regs, destReg,returnLoc);
 				dst<<"sw "<<destReg<<","<<bindings.getOffset(target)<<"($fp)"<<std::endl;
 			
-				std::cerr<<"By the way, I think that varb "<<target<<" lives at "<<bindings.getOffset(target)<<"and it was stored like a local"<<std::endl;
+				std::cerr<<"By the way, I think that varb "<<target<<" lives at "<<bindings.getOffset(target)<<"and it was stored like a local"<<std::endl; // legacy debug
 				regs.ReleaseRegister(tmp);
 			}
 			destReg = "NULL";
 			
-			/*		
-			dst<<"li $"<<reg.EmptyRegister()<<","<<value<<std::endl;
-			*/
+			
 		}
 		virtual void explore(int & declarations, Context & bindings) const override{
 			//target name irrelevant, will be assigned under a name and offset value
@@ -84,11 +91,13 @@ class AssignmentExpression : public Expression{ // ie for EXPRESSION = EXPRESSIO
 
 class FunctionCall : public Expression{
 	protected:
-		std::string id;
-		NodePtr vlist;
+		std::string id; // functions have an id
+		NodePtr vlist; // and a list of variables they take as input, not every function has this
 	public:
+		// two constructors for two cases
 		FunctionCall(std::string _id) : id(_id), vlist(NULL) {}
 		FunctionCall(std::string _id, NodePtr _vlist) : id(_id), vlist(_vlist) {}
+		
 		virtual void print(std::ostream &dst) const override {
 			std::cerr<<"Not implemented"<<std::endl;
 		}
@@ -100,10 +109,10 @@ class FunctionCall : public Expression{
 			dst<<" )";
 		}
 		virtual void compile(std::ostream &dst, Context & bindings, Registers & regs, std::string destReg, std::string returnLoc) const override {
-			
+			// currently only works on functions that do not take inputs
 			
 			//store the necassary registers. I need to save 19. 19*4=76
-			dst<<"addiu $fp, $fp, -88"<<std::endl;
+			dst<<"addiu $fp, $fp, -88"<<std::endl; // 88 on 76 as additional space needed by convention
 			int offset =8;
 			for(int i = 8;i<=25;i++){
 				dst<<"sw $"<<i<<", "<<offset<<"($fp)"<<std::endl;
@@ -140,7 +149,7 @@ class FunctionCall : public Expression{
 };
 
 
-class VarList : public Node{
+class VarList : public Node{ // a list of variables, as part of a function call
 	protected:
 		std::string current;
 		NodePtr next;

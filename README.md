@@ -1,6 +1,12 @@
 
 This repo contains an updated and modified version of a coursework project to make a C-89 to MIPs 1 compiler. The specification for this can be found at https://github.com/LangProc/langproc-2017-cw . This coursework was finished over the course of eight weeks, and was coded by myself and my partner, Kyzarok.
 
+TODO:
+Tidy code
+Delete old / useless comments, add new ones where needed
+Move debug printing to an optional toggle at command line
+Fix case when all registers are reserved
+
 Readme from that project follows
 
 This repo is for the Language Processors 2018 Compiler Project for Team KELP, consisting of Kai Lawrence and Edward Pickup

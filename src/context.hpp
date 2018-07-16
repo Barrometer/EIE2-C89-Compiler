@@ -140,7 +140,7 @@ class Registers{ // contains useful info about registers
 		bool register_used[32]; // there are 32 registers.
 		
 	public:
-	
+		
 		Registers(){
 			for(int i=0; i<32;i++){ // 32 registers, array starts at 0
 				register_used[i] = false;
@@ -156,12 +156,6 @@ class Registers{ // contains useful info about registers
 			return true; // indicates success
 		}
 		
-		void ReleaseRegister(int x){
-			if(x!=0){ // can't unfree register 0
-				register_used[x]=false;
-			}
-		}
-		
 		int EmptyRegister(){
 		//return an unused register in valid range If none available, return -1. 
 			for(int i= 8;i<=25;i++){
@@ -173,6 +167,21 @@ class Registers{ // contains useful info about registers
 			//if no free register found
 			return -1;
 		}
+		
+		/*
+		The above two functions have return values to allow for fail / success case. 
+		However this is currently unused in the program. An improvement would be to
+		check what actually is returned and do fixes based on this
+		*/
+		
+		void ReleaseRegister(int x){
+			if(x!=0){ // can't unfree register 0
+				register_used[x]=false;
+			}
+		}
+		
+		
+		
 };
 
 #endif
