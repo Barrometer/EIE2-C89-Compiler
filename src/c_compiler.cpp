@@ -1,4 +1,4 @@
-//This file contains the I/O handling for compiler and translator
+//This file contains the I/O handling for compiler and translator as well as the main body of the program
 
 #include"ast.hpp" //header pointing to various AST nodes
 #include <iostream>
@@ -7,7 +7,9 @@
 #include<cstdlib> //Required for exit
 #include<fstream> 
 
-std::string make_boilerplate(){
+
+/* when in python translate mode, this should be the start of every file */
+std::string make_boilerplate(){ 
 	std::stringstream ss; // make a function
 	ss<<"# Boilerplate"<<std::endl<<"if __name__ == \"__main__\":"<<std::endl;
 	ss<<"    import sys"<<std::endl<<"    ret=main()"<<std::endl<<"    sys.exit(ret)"<<std::endl;
@@ -44,7 +46,9 @@ int main(int argc, char *argv[]){
 	//functionality
 	if(mode_select =="--translate"){ //ie translator mode
 			
-		ast->translate(fileDest,0);
+		ast->translate(fileDest,0); 	/* call translate function on head of AST.
+												 the 0 means there is currently no indentation, as python uses
+												 indents to indicate scoping */
 
 		//now for boilerplate
 		fileDest<<std::endl;

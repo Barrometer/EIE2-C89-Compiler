@@ -4,6 +4,9 @@
 #include <map>
 #include <iostream>
 
+/*header contains declarations for two classes - one handling the context
+the other handling register status */
+
 
 class Context{ // contains a map, key is string, stored is string. Maps variables to values
 	/*
@@ -21,60 +24,47 @@ class Context{ // contains a map, key is string, stored is string. Maps variable
 	
 	protected:
 		//in retrospect, structs
-		std::map<std::string, std::string>  conReg;
-		std::map<std::string, int> conOffset;
-		std::map<std::string,bool> conGlob;
-		int nextOffset;
+		std::map<std::string, std::string>  conReg; // maps a variable name to the register it is stored in currently - may not be stored
+		std::map<std::string, int> conOffset; // maps a variable name to its offset from the stack pointer
+		std::map<std::string,bool> conGlob; // Maps a variable name to a boolean as to whether the variable is global or local
+		int nextOffset; // an incremending counter of where the next variable will live
 
 	public:
 		Context(){
 			nextOffset =4; // first varb stored at sp+4
 		}	
 		
-		/*
-		//assuming array of all of the different variables exists
 		
-		std::string[declarations] var_ids;
-
-		Context tmp();
-
-		for(int i=0; i<=declarations; i++){
-			tmp.updateKey(var_ids[i]);
-		}
-
-		*/
 	
-		void growTable(std::string var_id){	
+		void growTable(std::string var_id){	// for locals
 			conReg[var_id] = "NULL"; // need to use square brackets operator for assignment
+											 // by default variables don't live in a register, so
+											 // register is called as NULL
 			conOffset[var_id] = nextOffset; // as using at would throw an error
 			nextOffset=nextOffset+4;
-			conGlob[var_id]=false;
+			conGlob[var_id]=false; // this is the function called for local variables, so set to false
 		}
-		void growGlobals(std::string var_id){
+		void growGlobals(std::string var_id){// for globals
 			conReg[var_id]="NULL";
 			conGlob[var_id]=true;
 		
 		}
 		
-		bool isGlob(std::string var_id){
+		bool isGlob(std::string var_id){ // returns whether a variable is global or not
 			
 			return conGlob[var_id];
 		}
 		
-		int yesGlobals(){
+		int yesGlobals(){ // returns the number of global variables
 			return conGlob.size();
 		}
 		
-		void insertGlobals(Context add){
+		void insertGlobals(Context add){ // add global variables to each sub context that needs to know of the globals
 			conReg.insert(add.conReg.begin(),add.conReg.end());
 			conGlob.insert(add.conGlob.begin(),add.conGlob.end());
 		}
-		//really annoying but there's a bug that says you can't just assign a NULL space to a string allocated mem space, so I'm changing it to LITERAL NULL, a STRING LITERAL,
-
-		//DO NOT FORGET ABOUT THE STRING LITERAL HERE
-		//ALSO IT ONLY AFFECTS CONREG
 		
-		//the above two functions should work, though it ain't pretty		
+		
 
 		std::string getReg(std::string var_id){	//returns reg_stored_in for a given key
 			std::string tmp = conReg.at(var_id); // this works assuming the variable exists.
@@ -90,7 +80,7 @@ class Context{ // contains a map, key is string, stored is string. Maps variable
 		void updateConOffset(std::string var_id, int offset){ // update SP offset
 			conOffset.at(var_id) = offset;
 		}
-		void dumpTable(){
+		void dumpTable(){ // a debug function
 			std::cerr<<"Dumping map for testing"<<std::endl;
 			for(std::map<std::string,std::string>::iterator pos = conReg.begin(); pos!= conReg.end(); ++pos){
 				std::cerr<< pos->first<<" "<<pos->second<<std::endl;
@@ -110,16 +100,16 @@ class Context{ // contains a map, key is string, stored is string. Maps variable
 		
 		}
 		
-		void mergeMaps(Context add){
+		void mergeMaps(Context add){ // merge two contexts, which is needed for correct handling of scopes and shadowing
 			conReg.insert(add.conReg.begin(),add.conReg.end());
 			conOffset.insert(add.conOffset.begin(),add.conOffset.end());
 		}
 		
-		int returnOffset(){
+		int returnOffset(){ // returns the current offset from the stack pointer
 			return nextOffset;
 		}
 		
-		void changeOffset(int x){
+		void changeOffset(int x){ // a function that changes the stack pointer of every local variable - used as part of merging contexts
 			for(std::map<std::string,int>::iterator pos = conOffset.begin(); pos!= conOffset.end(); ++pos){
 				pos->second+=x-4;
 				
@@ -144,18 +134,20 @@ class Registers{ // contains useful info about registers
 	
 	*/
 	
-	//genuinely unsure which we can use
+	
 	protected:
 		// it doesn't matter what's in a register, it matters if its in usage
 		bool register_used[32]; // there are 32 registers.
 		
 	public:
+	
 		Registers(){
 			for(int i=0; i<32;i++){ // 32 registers, array starts at 0
 				register_used[i] = false;
 			}
-			register_used[0] = true; // reg 0 is always used
+			register_used[0] = true; // reg 0 is always used, and always has value of 0
 		}
+		
 		bool ReserveRegister(int x){ // mark a register as used
 			if(register_used[x]){ // ie if the register *is* used
 				return false; // this indicates I could not reserve register x
@@ -163,13 +155,15 @@ class Registers{ // contains useful info about registers
 			register_used[x] = true; // its now in use
 			return true; // indicates success
 		}
+		
 		void ReleaseRegister(int x){
 			if(x!=0){ // can't unfree register 0
 				register_used[x]=false;
 			}
 		}
+		
 		int EmptyRegister(){
-		//return an unused register in valid range(figure that out). If none available, return -1 I guess
+		//return an unused register in valid range If none available, return -1. 
 			for(int i= 8;i<=25;i++){
 				if(!register_used[i]){
 					return i;

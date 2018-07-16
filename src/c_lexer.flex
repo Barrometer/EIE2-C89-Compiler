@@ -24,8 +24,7 @@ COM_END			"*/"
 %%
 
  /*keywords*/
- /*keywords have a very different meaning in TokenJunk, but I'll leave as is and discuss tmr 27/2/18*/
- /*so we still haven't included strings in this*/
+
 "int"		{yylval.string=new std::string(yytext);return(K_INT);}
 "char"		{return(K_CHAR);}
 "float"		{return(K_FLOAT);}
@@ -35,10 +34,10 @@ COM_END			"*/"
 "for"		{return(K_FOR);}
 "while"		{yylval.string=new std::string(yytext);return(K_WHILE);}
 "void"		{yylval.string=new std::string(yytext);return(K_VOID);}
-	/*"enumerator"		{return(K_ENUM);}	NO IDEA WHAT THIS DOES*/
 
 
- /*Arithmetic operator (and some point stuff we'll probably never implement)*/
+
+ /*Arithmetic operator */
 
 "+"	{return(O_PLUS);}
 "=" 	{return(O_EQUALS);}
@@ -53,8 +52,8 @@ COM_END			"*/"
 "&&" 	{return(L_AND);}
 "||" 	{return(L_OR);}
 "!" 	{return(L_NOT);}
-">"		{return(L_GTHAN);}
-"<"		{return(L_LTHAN);}
+">"	{return(L_GTHAN);}
+"<"	{return(L_LTHAN);}
 ">="	{return(L_GETHAN);}
 "<="	{return(L_LETHAN);}
 "=>"	{return(L_GETHAN);}
@@ -83,14 +82,17 @@ COM_END			"*/"
 ":" 	{return(P_STATEMENT_LABEL);}
 ";" 	{return(P_STATEMENT_END);}
 "..." 	{return(P_VARIABLE_LENGTH_ARGUMENT_LIST);}
-"#" 	{return(P_INCLUDE);} // not sure this is correct handling?
-"'" 	{return(P_CHAR_CONST);} //not sure this is right either?
+"#" 	{return(P_INCLUDE);} 
+"'" 	{return(P_CHAR_CONST);} 
+
+ /*Comments */
 
 {COM_START}.*{COM_END} {} // strip comments
-"//"[^\n]* {} //strip comments
+"//"[^\n]* {} //strip comments, not the type of comments found in c-89 but included anyway
 
 \n { fprintf(stderr, "Consume Unwanted characters, newline\n"); }
 \t { fprintf(stderr, "Consume Unwanted characters, tabs\n"); }
+
  /*types*/
 
 [-]?{T_Digit}+ { yylval.number=strtod(yytext, 0); return T_INT; }
