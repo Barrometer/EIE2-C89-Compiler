@@ -1,3 +1,5 @@
+// this file contains pre-declarations of many classes (types of nodes) so that different headers can refer to other node types
+
 #ifndef ast_node_hpp
 #define ast_node_hpp
 
@@ -8,10 +10,10 @@
 #include <vector>
 
 
- // a global variab (gasp) to track global variables as they are parsed...
+ // a global variab (gasp) to track global variables as they are parsed
 static int myGlobVarbCounter = 0;
 
-static std::vector<std::string> myGlobVarbContainer; // another global variable, allowing for translation from c to python, hopefully
+static std::vector<std::string> myGlobVarbContainer; // another global variable, helping with translation from c to python
 
 static int unique_name =0; // a global boolean for making unique names for labels. Increment after use
 
@@ -37,11 +39,13 @@ public:
 
 	virtual ~Node (){} //destructor, may or may not be implemented in subclasses
 
-	//copied the following functions from DT's examples, will need work in other places too
-
+	//copied the following functions from lecturer's examples, will need work in other places too
+	
+	// a method used very early on for testing. Many nodes do not implement this as it is not a requirement
 	virtual void print(std::ostream &dst) const =0;
 
-    //! Evaluate the tree using the given mapping of variables to numbers
+    // Evaluate the tree using the given mapping of variables to numbers
+    // this is never implementted and was a possible extension for testing
     virtual double evaluate(
         const std::map<std::string,double> &bindings
     ) const
